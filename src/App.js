@@ -105,14 +105,38 @@ class App extends Component {
   }
 
   handleRemove = id => {
-    this.setState(prevState => ({
-      visitedCountries: prevState.visitedCountries.filter(
+    this.setState(prevState => {
+      const {countries} = prevState
+      const updatedCountries = countries.map(country =>
+        country.id === id ? {...country, isVisited: false} : country,
+      )
+      const visitedCountry = prevState.visitedCountries.filter(
         country => country.id !== id,
-      ),
-
-      isVisited: prevState.visitedCountries.length > 1,
-    }))
+      )
+      return {
+        countries: updatedCountries,
+        visitedCountries: visitedCountry,
+        isVisited: false,
+      }
+    })
   }
+
+  //   handleRemove = id => {
+  //     this.setState(prevState => {
+  //       const {countries} = prevState
+  //       const updatedCountries = countries.map(country =>
+  //         country.id === id ? {...country, isVisited: false} : country,
+  //       )
+  //       const updatedVisitedCountries = prevState.visitedCountries.filter(
+  //         country => country.id !== id,
+  //       )
+  //       return {
+  //         countries: updatedCountries,
+  //         visitedCountries: updatedVisitedCountries,
+  //         isVisited: updatedVisitedCountries.length > 0,
+  //       }
+  //     })
+  //   }
 
   render() {
     const {countries, visitedCountries, isVisited} = this.state
